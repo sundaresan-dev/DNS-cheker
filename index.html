@@ -3,10 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Check My DNS & Payment</title>
+    <title>Check My DNS</title>
     <link rel="stylesheet" href="colors.css">
-    <script src="run.js"></script>
-
 </head>
 <body class="theme-1">
     <!-- Landing Page -->
@@ -16,12 +14,8 @@
         <button onclick="showDnsChecker()">Start Checking</button>
     </div>
 
-    <!-- Payment Section -->
-   <script src="run.js"></script>
-
-
     <!-- DNS Checker -->
-    <div id="dns-checker-container">
+    <div id="dns-checker-container" style="display: none;">
         <h1>Check My DNS</h1>
         <input type="text" id="domain" placeholder="Enter Domain Name (e.g., example.com)" />
         <select id="record-type">
@@ -43,8 +37,8 @@
             <option value="opendns">OpenDNS</option>
         </select>
         <button id="check-btn">Check DNS</button>
-        <div id="loading"><span>Loading...</span></div>
-        <div id="result">
+        <div id="loading" style="display: none;"><span>Loading...</span></div>
+        <div id="result" style="display: none;">
             <h3>DNS Records:</h3>
             <pre id="dns-result"></pre>
         </div>
@@ -52,6 +46,6 @@
 
     <footer>Developed by Sundaresan</footer>
 
-   
+  
 </body>
 </html>

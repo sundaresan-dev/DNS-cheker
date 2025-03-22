@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Check My DNS & Payment</title>
+    <style>
+        /* Global Styles */
+        * {
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            flex-direction: column;
+            color: #333;
+            transition: all 0.3s ease;
+            padding: 15px;
+        }
+        /* Landing Page */
+        #landing-page {
+            text-align: center;
+            padding: 40px;
+            background-color: #4a90e2;
+            color: #fff;
+            width: 100%;
+            max-width: 800px;
+            border-radius: 12px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+        }
+        #landing-page h1 {
+            font-size: 30px;
+            margin-bottom: 20px;
+        }
+        #landing-page p {
+            font-size: 18px;
+            margin-bottom: 30px;
+        }
+        #landing-page button {
+            padding: 14px 25px;
+            background-color: #fff;
+            color: #4a90e2;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+        #landing-page button:hover {
+            background-color: #dbeef7;
+        }
+
+        /* DNS Checker */
+        #dns-checker-container {
+            background-color: #ffffff;
+            padding: 25px 20px;
+            border-radius: 12px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+            width: 100%;
+            max-width: 500px;
+            text-align: center;
+            transition: all 0.3s ease;
+            display: none;
+        }
+        h1 {
+            font-size: 26px;
+            margin-bottom: 15px;
+            color: #4a90e2;
+        }
+        input[type="text"],
+        select {
+            width: 100%;
+            max-width: 400px;
+            padding: 12px 15px;
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            background-color: #f9f9f9;
+        }
+        button {
+            padding: 14px 25px;
+            background-color: #4a90e2;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            width: 100%;
+            max-width: 400px;
+            transition: background-color 0.3s ease;
+            margin-bottom: 20px;
+        }
+        button:hover {
+            background-color: #357ab7;
+        }
+        #loading {
+            display: none;
+            margin-top: 10px;
+        }
+        #result {
+            margin-top: 20px;
+            text-align: left;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background-color: #f5f5f5;
+            display: none;
+        }
+
+        /* Payment Section */
+        #payment-section {
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        #payment-package {
+            padding: 12px 15px;
+            font-size: 16px;
+            margin-bottom: 20px;
+        }
+
+        footer {
+            font-size: 14px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body class="theme-1">
+    <!-- Landing Page -->
+    <div id="landing-page">
+        <h1>Welcome to Check My DNS</h1>
+        <p>Check your domain's DNS records with ease. Choose a record type and DNS provider to get started!</p>
+        <button onclick="showDnsChecker()">Start Checking</button>
+    </div>
+
+    <!-- Payment Section -->
+    <div id="payment-section" style="display: none;">
+        <h2>Select a Plan to Subscribe</h2>
+        <select id="payment-package" onchange="updatePaymentDetails()">
+            <option value="free">Free Plan (5 Searches)</option>
+            <option value="basic">Basic Plan (20 Searches) - ₹500/month</option>
+            <option value="premium">Premium Plan (Unlimited Searches) - ₹1500/month</option>
+        </select>
+        <br><br>
+        <button id="subscribe-btn" onclick="initiatePayment()">Proceed to Payment</button>
+    </div>
+
+    <!-- DNS Checker -->
+    <div id="dns-checker-container">
+        <h1>Check My DNS</h1>
+        <input type="text" id="domain" placeholder="Enter Domain Name (e.g., example.com)" />
+        <select id="record-type">
+            <option value="A">A Record (IP)</option>
+            <option value="AAAA">AAAA Record (IPv6)</option>
+            <option value="CNAME">CNAME Record</option>
+            <option value="MX">MX Record (Mail)</option>
+            <option value="NS">NS Record (Nameservers)</option>
+            <option value="PTR">PTR Record (Reverse DNS)</option>
+            <option value="TXT">TXT Record</option>
+            <option value="SOA">SOA Record (Start of Authority)</option>
+            <option value="SPF">SPF Record</option>
+        </select>
+        <select id="dns-provider">
+            <option value="google">Google DNS</option>
+            <option value="cloudflare">Cloudflare DNS</option>
+            <option value="openresolv">OpenResolver DNS</option>
+            <option value="quad9">Quad9 DNS</option>
+            <option value="opendns">OpenDNS</option>
+        </select>
+        <button id="check-btn">Check DNS</button>
+        <div id="loading"><span>Loading...</span></div>
+        <div id="result">
+            <h3>DNS Records:</h3>
+            <pre id="dns-result"></pre>
+        </div>
+    </div>
+
+    <footer>Developed by Muneeb Khan</footer>
+
+    <script>
+        let searchCount = 0;
+        let maxSearches = 5; // Default to Free Plan
+
+        // Functionality to show DNS Checker
+        function showDnsChecker() {
+            document.getElementById('landing-page').style.display = 'none';
+            document.getElementById('dns-checker-container').style.display = 'block';
+            document.getElementById('payment-section').style.display = 'block';
+        }
+
+        // Functionality for subscription
+        function updatePaymentDetails() {
+            const selectedPackage = document.getElementById('payment-package').value;
+            if (selectedPackage === 'free') {
+                maxSearches = 5;
+            } else if (selectedPackage === 'basic') {
+                maxSearches = 20;
+            } else if (selectedPackage === 'premium') {
+                maxSearches = Infinity;
+            }
+        }
+
+        function initiatePayment() {
+            const amount = (document.getElementById('payment-package').value === 'basic') ? 500 : 1500;
+            fetch('/create-payment-link', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ amount, description: 'DNS Subscription' }),
+            })
+            .then(response => response.json())
+            .then(data => {
+                window.location.href = data.paymentLink;
+            })
+            .catch(error => console.error('Error initiating payment:', error));
+        }
+
+        // Functionality to check DNS records
+        document.getElementById('check-btn').addEventListener('click', () => {
+            const domain = document.getElementById('domain').value.trim();
+            const recordType = document.getElementById('record-type').value;
+            const dnsProvider = document.getElementById('dns-provider').value;
+
+            if (!domain) {
+                alert('Please enter a valid domain.');
+                return;
+            }
+
+            if (searchCount >= maxSearches && maxSearches !== Infinity) {
+                alert('You have reached your search limit. Please upgrade your package.');
+                return;
+            }
+
+            searchCount++;
+            document.getElementById('loading').style.display = 'block';
+            document.getElementById('result').style.display = 'none';
+
+            let apiUrl = '';
+            if (dnsProvider === 'google') {
+                apiUrl = `https://dns.google/resolve?name=${domain}&type=${recordType}`;
+            } else if (dnsProvider === 'cloudflare') {
+                apiUrl = `https://cloudflare-dns.com/dns-query?name=${domain}&type=${recordType}`;
+            }
+
+            fetch(apiUrl, { headers: { 'Accept': 'application/dns-json' } })
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('loading').style.display = 'none';
+                    const result = data.Answer ? data.Answer.map(record => record.data).join('\n') : 'No DNS records found.';
+                    document.getElementById('dns-result').textContent = result;
+                    document.getElementById('result').style.display = 'block';
+                })
+                .catch(() => {
+                    document.getElementById('loading').style.display = 'none';
+                    alert('Error fetching DNS records.');
+                });
+        });
+    </script>
+</body>
+</html>

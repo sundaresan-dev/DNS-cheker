@@ -1,4 +1,14 @@
 # 🌐 DNS Checker
+<p align="center">
+  <b>DNS checker.</b>  
+  <br><br>
+  <img src="https://img.shields.io/badge/HTML-5-orange.svg" alt="HTML5">
+  <img src="https://img.shields.io/badge/CSS-3-blue.svg" alt="CSS3">
+  <img src="https://img.shields.io/badge/JavaScript-ES6-yellow.svg" alt="JavaScript">
+  <img src="https://img.shields.io/badge/Status-Active-brightgreen.svg" alt="Project Status">
+  <br><br>
+  <img src="dns.png" alt="Instagram Spam Checker Banner">
+</p>
 
 A simple **DNS Checker** web application that allows users to check DNS records for any domain using different DNS providers.
 

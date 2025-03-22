@@ -4,132 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Check My DNS & Payment</title>
-    <style>
-        /* Global Styles */
-        * {
-            box-sizing: border-box;
-        }
-        body {
-            font-family: 'Poppins', sans-serif;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            flex-direction: column;
-            color: #333;
-            transition: all 0.3s ease;
-            padding: 15px;
-        }
-        /* Landing Page */
-        #landing-page {
-            text-align: center;
-            padding: 40px;
-            background-color: #4a90e2;
-            color: #fff;
-            width: 100%;
-            max-width: 800px;
-            border-radius: 12px;
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
-        }
-        #landing-page h1 {
-            font-size: 30px;
-            margin-bottom: 20px;
-        }
-        #landing-page p {
-            font-size: 18px;
-            margin-bottom: 30px;
-        }
-        #landing-page button {
-            padding: 14px 25px;
-            background-color: #fff;
-            color: #4a90e2;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 16px;
-            transition: background-color 0.3s ease;
-        }
-        #landing-page button:hover {
-            background-color: #dbeef7;
-        }
-
-        /* DNS Checker */
-        #dns-checker-container {
-            background-color: #ffffff;
-            padding: 25px 20px;
-            border-radius: 12px;
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
-            width: 100%;
-            max-width: 500px;
-            text-align: center;
-            transition: all 0.3s ease;
-            display: none;
-        }
-        h1 {
-            font-size: 26px;
-            margin-bottom: 15px;
-            color: #4a90e2;
-        }
-        input[type="text"],
-        select {
-            width: 100%;
-            max-width: 400px;
-            padding: 12px 15px;
-            margin-bottom: 20px;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            font-size: 16px;
-            background-color: #f9f9f9;
-        }
-        button {
-            padding: 14px 25px;
-            background-color: #4a90e2;
-            color: #fff;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 16px;
-            width: 100%;
-            max-width: 400px;
-            transition: background-color 0.3s ease;
-            margin-bottom: 20px;
-        }
-        button:hover {
-            background-color: #357ab7;
-        }
-        #loading {
-            display: none;
-            margin-top: 10px;
-        }
-        #result {
-            margin-top: 20px;
-            text-align: left;
-            padding: 15px;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            background-color: #f5f5f5;
-            display: none;
-        }
-
-        /* Payment Section */
-        #payment-section {
-            text-align: center;
-            margin-top: 30px;
-        }
-
-        #payment-package {
-            padding: 12px 15px;
-            font-size: 16px;
-            margin-bottom: 20px;
-        }
-
-        footer {
-            font-size: 14px;
-            margin-top: 20px;
-        }
-    </style>
+    <link rel="stylesheet" href="colors.css">
 </head>
 <body class="theme-1">
     <!-- Landing Page -->
@@ -140,16 +15,7 @@
     </div>
 
     <!-- Payment Section -->
-    <div id="payment-section" style="display: none;">
-        <h2>Select a Plan to Subscribe</h2>
-        <select id="payment-package" onchange="updatePaymentDetails()">
-            <option value="free">Free Plan (5 Searches)</option>
-            <option value="basic">Basic Plan (20 Searches) - ₹500/month</option>
-            <option value="premium">Premium Plan (Unlimited Searches) - ₹1500/month</option>
-        </select>
-        <br><br>
-        <button id="subscribe-btn" onclick="initiatePayment()">Proceed to Payment</button>
-    </div>
+   
 
     <!-- DNS Checker -->
     <div id="dns-checker-container">
@@ -181,7 +47,7 @@
         </div>
     </div>
 
-    <footer>Developed by Muneeb Khan</footer>
+    <footer>Developed by Sundaresan</footer>
 
     <script>
         let searchCount = 0;

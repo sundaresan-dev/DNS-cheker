@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <script src="run.js"></script>
+   
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -48,6 +48,74 @@
 
     <footer>Developed by Sundaresan</footer>
 
-  
+  <script>
+              let searchCount = 0;
+        let maxSearches = 5; // Default to Free Plan
+
+        // Functionality to show DNS Checker
+        function showDnsChecker() {
+            document.getElementById('landing-page').style.display = 'none';
+            document.getElementById('dns-checker-container').style.display = 'block';
+        }
+
+        // Functionality to check DNS records
+        document.addEventListener("DOMContentLoaded", function () {
+            document.getElementById('check-btn').addEventListener('click', function () {
+                const domain = document.getElementById('domain').value.trim();
+                const recordType = document.getElementById('record-type').value;
+                const dnsProvider = document.getElementById('dns-provider').value;
+
+                if (!domain) {
+                    alert('Please enter a valid domain.');
+                    return;
+                }
+
+                if (searchCount >= maxSearches) {
+                    alert('You have reached your search limit.');
+                    return;
+                }
+
+                searchCount++;
+                document.getElementById('loading').style.display = 'block';
+                document.getElementById('result').style.display = 'none';
+
+                let apiUrl = '';
+
+                switch (dnsProvider) {
+                    case 'google':
+                        apiUrl = `https://dns.google/resolve?name=${domain}&type=${recordType}`;
+                        break;
+                    case 'cloudflare':
+                        apiUrl = `https://cloudflare-dns.com/dns-query?name=${domain}&type=${recordType}`;
+                        break;
+                    case 'openresolv':
+                        apiUrl = `https://doh.openresolv.net/dns-query?name=${domain}&type=${recordType}`;
+                        break;
+                    case 'quad9':
+                        apiUrl = `https://dns.quad9.net/dns-query?name=${domain}&type=${recordType}`;
+                        break;
+                    case 'opendns':
+                        apiUrl = `https://doh.opendns.com/dns-query?name=${domain}&type=${recordType}`;
+                        break;
+                    default:
+                        alert("Selected DNS provider is not supported yet.");
+                        return;
+                }
+
+                fetch(apiUrl, { headers: { 'Accept': 'application/dns-json' } })
+                    .then(response => response.json())
+                    .then(data => {
+                        document.getElementById('loading').style.display = 'none';
+                        const result = data.Answer ? data.Answer.map(record => record.data).join('\n') : 'No DNS records found.';
+                        document.getElementById('dns-result').textContent = result;
+                        document.getElementById('result').style.display = 'block';
+                    })
+                    .catch(() => {
+                        document.getElementById('loading').style.display = 'none';
+                        alert('Error fetching DNS records.');
+                    });
+            });
+        });
+  </script>
 </body>
 </html>

@@ -1,5 +1,5 @@
  let searchCount = 0;
-        let maxSearches = 5; // Default to Free Plan
+        let maxSearches = 99; // Default to Free Plan
 
         // Functionality to show DNS Checker
         function showDnsChecker() {

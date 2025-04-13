@@ -32,7 +32,7 @@ A simple **DNS Checker** web application that allows users to check DNS records 
 
 
 ## 🔗 Live Demo
-🚀 **Try it here:** [DNS Checker](https://sundaretion.github.io/DNS-cheker/)  
+🚀 **Try it here:** [DNS Checker](https://sundaresan-dev.github.io/DNS-cheker/)  
 
 ## 👨‍💻 Author
 Developed by **Sundaresan** 🚀  
